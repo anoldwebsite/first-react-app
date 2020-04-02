@@ -1,39 +1,25 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import { CardList } from './components/card-list/card-list.component'
 
 /* By using a class component instead of a function, we get access to state inside our class, whic is a js object with properties. */
 class App extends Component {
   constructor() {
-    super();
+    super(); /* This line calls the constructor of React.Component, which is superclass of this class App. Here, in this class, we are extending the functionality of that superclass. */
     this.state = {
-      string: "this text"
+      monsters: []
     };
+  }
+  //The method componentDidMount below is a life cycle method which we have access to because our class extends the Component class.
+  componentDidMount() {//This method is called immediately after component is mounted. Setting the state here will cause re-rendering.
+    fetch('https://jsonplaceholder.typicode.com/users') //This returns a promise
+      .then(response => response.json())  //This returns a promise
+      .then(usersArray => this.setState({ monsters: usersArray }))//Setting the state, whic will cause re-rendering.
   }
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>{this.state.string}</p>
-          <button
-            onClick={() => {
-              this.state.string === "this text"
-                ? this.setState({ string: "THAT TEXT" })
-                : this.setState({ string: "this text" });
-            }}
-          >
-            click me to change the text above dynamically
-          </button>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React from Scratch
-          </a>
-        </header>
+        <CardList monsters={this.state.monsters} />
       </div>
     );
   }
