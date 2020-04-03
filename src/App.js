@@ -18,6 +18,11 @@ class App extends Component {
       .then(response => response.json())  //This returns a promise
       .then(usersArray => this.setState({ monsters: usersArray }))//Setting the state, whic will cause re-rendering.
   }
+
+  handleChange = (e) => {
+    this.setState({ searchField: e.target.value })
+  };
+
   render() {
     const { monsters, searchField } = this.state;
     const filteredMonsters = monsters.filter(
@@ -26,13 +31,13 @@ class App extends Component {
     );
     return (
       <div className="App">
-        <SearchBox 
-          placeholder = 'search monster'
-          handleChange = { e => this.setState( { searchField: e.target.value } ) }
+        <SearchBox
+          placeholder='search monster'
+          handleChange={this.handleChange}
         />
         <CardList monsters={filteredMonsters} />
       </div>
-    ); 
+    );
   }
 }
 
