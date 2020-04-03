@@ -2,7 +2,7 @@ import React from "react";
 import "./card.styles.css";
 
 export const Card = (
-  props //So this props has one monster only.
+  props //So this props has one monster object only that was passed to this component by CardList component.
 ) => (
   <div className="card-container">
     <img

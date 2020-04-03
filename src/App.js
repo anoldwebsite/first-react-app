@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import "./App.css";
 import { CardList } from './components/card-list/card-list.component'
+import { SearchBox } from './components/search-box/search-box.component';
 
 /* By using a class component instead of a function, we get access to state inside our class, whic is a js object with properties. */
 class App extends Component {
   constructor() {
     super(); /* This line calls the constructor of React.Component, which is superclass of this class App. Here, in this class, we are extending the functionality of that superclass. */
     this.state = {
-      monsters: []
+      monsters: [],
+      searchField: ''
     };
   }
   //The method componentDidMount below is a life cycle method which we have access to because our class extends the Component class.
@@ -17,11 +19,20 @@ class App extends Component {
       .then(usersArray => this.setState({ monsters: usersArray }))//Setting the state, whic will cause re-rendering.
   }
   render() {
+    const { monsters, searchField } = this.state;
+    const filteredMonsters = monsters.filter(
+      monster => monster.name.toLowerCase()
+        .includes(searchField.toLowerCase())
+    );
     return (
       <div className="App">
-        <CardList monsters={this.state.monsters} />
+        <SearchBox 
+          placeholder = 'search monster'
+          handleChange = { e => this.setState( { searchField: e.target.value } ) }
+        />
+        <CardList monsters={filteredMonsters} />
       </div>
-    );
+    ); 
   }
 }
 
